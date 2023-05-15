@@ -9,19 +9,20 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.reset.ResetEncoders;
 
 public class ShuffleboardManager extends SubsystemBase {
   /** Creates a new ShuffleboardManager. */
   private static ShuffleboardManager _instance = null;
 
-  public ShuffleboardManager getInstance() {
+  public static ShuffleboardManager getInstance() {
     if( _instance == null ) {
       _instance = new ShuffleboardManager();
     }
     return _instance;
   }
 
-  //private final Drivetrain _drive = Drivetrain.getInstance();
+  private final Drivetrain _drive = Drivetrain.getInstance();
 
   ShuffleboardTab telemetry;
 
@@ -43,7 +44,7 @@ public class ShuffleboardManager extends SubsystemBase {
 
   private ShuffleboardManager() {
     shuffleboardInit();
-    //SmartDashboard.putData("Reset Encoders", new ResetEncoders());
+    SmartDashboard.putData("Reset Encoders", new ResetEncoders());
   }
 
   public void shuffleboardInit() {
