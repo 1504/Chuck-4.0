@@ -12,13 +12,14 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.DriveConstants;
 
 public class Drivetrain extends SubsystemBase {
 
-  static private Drivetrain instance = null;
+  private static Drivetrain instance = null;
   public static Drivetrain getInstance() {
     if( instance == null ) {
       instance = new Drivetrain();
@@ -37,6 +38,11 @@ public class Drivetrain extends SubsystemBase {
   private final RelativeEncoder backLeftEncoder;
   private final RelativeEncoder backRightEncoder;
 
+  private boolean rotating = false;
+
+  private MecanumDrive _drive;
+
+  
   public Drivetrain() {
     // make 4 new cansparkmax objects
 
@@ -60,6 +66,19 @@ public class Drivetrain extends SubsystemBase {
     _backLeft.setIdleMode(IdleMode.kCoast);
     _backRight.setIdleMode(IdleMode.kCoast);
 
+    _drive = new MecanumDrive(_frontLeft, _backRight, _frontRight, _backLeft);
+
+  }
+  
+  public void cartesianDrive(double xSpeed, double ySpeed, double zRotation) {
+    xSpeed *= -1;
+    // deadband the inputs
+    double zRot = Math.abs(zRotation) < DriveConstants.DEADBAND ? 0 : Math.pow(zRotation, 3);
+    double ySpd = Math.abs(ySpeed) < DriveConstants.DEADBAND ? 0 : Math.pow(ySpeed, 3);
+    double xSpd = Math.abs(xSpeed) < DriveConstants.DEADBAND ? 0 : Math.pow(xSpeed, 3);
+    if (!rotating) {
+      _drive.driveCartesian(xSpd, ySpd, zRot);
+    }
   }
 
   public void resetEncoders() {

@@ -7,9 +7,12 @@ package frc.robot.commands.cartesian;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Drivetrain;
 
 public class Cartesian extends CommandBase {
   /** Creates a new Cartesian. */
+
+  private Drivetrain _instance = Drivetrain.getInstance(); 
 
   private final DoubleSupplier _ySpeed;
   private final DoubleSupplier _xSpeed;
@@ -18,6 +21,7 @@ public class Cartesian extends CommandBase {
 
   public Cartesian(DoubleSupplier forwardSpeed, DoubleSupplier horizontalSpeed, DoubleSupplier rotationSpeed ) {
     // Use addRequirements() here to declare subsystem dependencies.
+
     _ySpeed = horizontalSpeed;
     _xSpeed = forwardSpeed;
     _zRotation = rotationSpeed;
@@ -27,7 +31,9 @@ public class Cartesian extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    _instance.cartesianDrive(_xSpeed.getAsDouble(), _ySpeed.getAsDouble(), _zRotation.getAsDouble());
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

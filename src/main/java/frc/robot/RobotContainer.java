@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.cartesian.Cartesian;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Gripper;
 import frc.robot.subsystems.ShuffleboardManager;
@@ -41,6 +42,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+
+    m_drivetrain.setDefaultCommand(new Cartesian( () -> m_driverController.getLeftY(), () -> -m_driverController.getRightX(), () -> m_driverController.getLeftX() ) );
   }
 
   /**

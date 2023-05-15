@@ -23,5 +23,7 @@ public final class Constants {
     public static final int FRONT_RIGHT = 0;
     public static final int BACK_LEFT = 0;
     public static final int BACK_RIGHT = 0;
+
+    public static final double DEADBAND = 0;
   }
 }
