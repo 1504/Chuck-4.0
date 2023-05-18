@@ -4,17 +4,23 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.cartesian.Cartesian;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ShuffleboardManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -36,14 +42,15 @@ public class RobotContainer {
   private final Joystick m_joystick2 = new Joystick(2);
 
 
+  private final SendableChooser<CommandBase> m_autoChooser = new SendableChooser<>();
+  private final List<List<PathPlannerTrajectory>> m_testPaths = new ArrayList<>();
+
   public static final HashMap<String, Command> m_eventMap = new HashMap<>();
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
     m_drivetrain.setDefaultCommand(new Cartesian(() -> m_joystick1.getX(), () ->m_joystick1.getY(), () ->m_joystick2.getY()));
-
-    
 
   }
 
@@ -70,10 +77,9 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    Command command = new CommandBase() {
-      
-    };
-    return command;
-    
+    //if (m_autoChooser.getSelected() == null) {
+      return new PrintCommand("No Auton Selected");
+    //}
+  
   }
 }
