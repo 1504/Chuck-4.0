@@ -7,11 +7,11 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.cartesian.Cartesian;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Gripper;
 import frc.robot.subsystems.ShuffleboardManager;
 
 import java.util.HashMap;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -29,12 +29,11 @@ public class RobotContainer {
 
   //subsystems
   private final Drivetrain m_drivetrain = Drivetrain.getInstance();
-  private final Gripper m_gripper = Gripper.getInstance();
   private final ShuffleboardManager m_shuffleboardManager = ShuffleboardManager.getInstance();
   
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final Joystick m_joystick1 = new Joystick(1);
+  private final Joystick m_joystick2 = new Joystick(2);
 
 
   public static final HashMap<String, Command> m_eventMap = new HashMap<>();
@@ -42,8 +41,10 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    m_drivetrain.setDefaultCommand(new Cartesian(() -> m_joystick1.getX(), () ->m_joystick1.getY(), () ->m_joystick2.getY()));
 
-    m_drivetrain.setDefaultCommand(new Cartesian( () -> m_driverController.getLeftY(), () -> -m_driverController.getRightX(), () -> m_driverController.getLeftX() ) );
+    
+
   }
 
   /**
@@ -58,9 +59,6 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
     
   }
 
