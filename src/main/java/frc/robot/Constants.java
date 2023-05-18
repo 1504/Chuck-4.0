@@ -61,6 +61,8 @@ public final class Constants {
   public static class AutoConstants { 
     public static final double AUTO_MAX_SPEED_METERS_PER_SECOND = 1;
 
+    public static final double AUTO_MAX_ACCEL_METERS_PER_SECOND_SQUARED = 2;
+
     public static final boolean USE_VISION_ASSIST = false;
   }
 }
