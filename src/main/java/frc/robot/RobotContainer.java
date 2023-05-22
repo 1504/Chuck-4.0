@@ -8,7 +8,10 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.cartesian.Cartesian;
+import frc.robot.commands.pneumatics.DisableSolenoid;
+import frc.robot.commands.pneumatics.EnableSolenoid;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Pneumatics;
 import frc.robot.subsystems.ShuffleboardManager;
 
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -36,6 +40,7 @@ public class RobotContainer {
   //subsystems
   private final Drivetrain m_drivetrain = Drivetrain.getInstance();
   private final ShuffleboardManager m_shuffleboardManager = ShuffleboardManager.getInstance();
+  private final Pneumatics m_pneumatics = Pneumatics.getInstance();
   
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final Joystick m_joystick1 = new Joystick(1);
@@ -51,8 +56,9 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     m_drivetrain.setDefaultCommand(new Cartesian(() -> m_joystick1.getX(), () ->m_joystick1.getY(), () ->m_joystick2.getY()));
-
-  }
+    new JoystickButton(m_joystick1, 1).whileTrue(new EnableSolenoid());
+    new JoystickButton(m_joystick1, 2).whileTrue(new DisableSolenoid());
+    }
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
