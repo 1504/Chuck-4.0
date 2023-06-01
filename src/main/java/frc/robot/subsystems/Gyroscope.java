@@ -67,7 +67,7 @@ public Rotation2d getYawRotation() {
 }
 */
 
-public void reset() {
+public void resetGyro() {
   _gyro.reset();
   System.out.println("Gyro Reset");
 }
